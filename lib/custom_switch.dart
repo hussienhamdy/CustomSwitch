@@ -85,18 +85,23 @@ class _CustomSwitchState extends State<CustomSwitch>
                 height: widget.height,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: widget.borderColor),
+                    border: Border.all(color: _circleAnimation.value == inActiveAlignment
+                          ? widget.inActiveColor
+                          : widget.activeColor),
                     color: _circleAnimation.value == inActiveAlignment
                         ? widget.inActiveColor
                         : widget.activeColor),
               ),
               Positioned(
-                left: _circleAnimation.value == Alignment.centerLeft ? 0 : null,
-                right:_circleAnimation.value == Alignment.centerLeft ? null: 0,
+                left: _circleAnimation.value == Alignment.centerLeft ? 1 : null,
+                right:_circleAnimation.value == Alignment.centerLeft ? null: 1,
                 child: Container(
                   width: widget.height,
                   height: widget.height,
                   decoration: BoxDecoration(
+                    border: Border.all(color: _circleAnimation.value == inActiveAlignment
+                          ? widget.inActiveColor
+                          : widget.activeColor),
                       shape: BoxShape.circle,
                       color: _circleAnimation.value == inActiveAlignment
                           ? widget.inActiveCircleColor
@@ -108,4 +113,5 @@ class _CustomSwitchState extends State<CustomSwitch>
     );
   }
 }
+
 
