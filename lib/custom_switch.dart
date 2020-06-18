@@ -7,12 +7,13 @@ class CustomSwitch extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final Color activeColor;
   final Color inActiveColor;
-  final Color borderColor;
   final Color activeCircleColor;
   final Color inActiveCircleColor;
   final double height;
   final double width;
   final bool isRTL;
+  final double paddingTop;
+  final double paddingSide;
 
   const CustomSwitch({
     Key key,
@@ -24,8 +25,9 @@ class CustomSwitch extends StatefulWidget {
     this.height,
     this.activeCircleColor,
     this.inActiveCircleColor,
-    this.borderColor,
     this.isRTL,
+    this.paddingSide,
+    this.paddingTop
   }) : super(key: key);
 
   @override
@@ -42,10 +44,10 @@ class _CustomSwitchState extends State<CustomSwitch>
     super.initState();
     Alignment active;
     Alignment inActive;
-    if(widget.isRTL){
+    if (widget.isRTL) {
       active = Alignment.centerLeft;
       inActive = Alignment.centerRight;
-    } else{
+    } else {
       active = Alignment.centerRight;
       inActive = Alignment.centerLeft;
     }
@@ -61,7 +63,7 @@ class _CustomSwitchState extends State<CustomSwitch>
   @override
   Widget build(BuildContext context) {
     Alignment inActiveAlignment = Alignment.centerLeft;
-    if(widget.isRTL){
+    if (widget.isRTL) {
       inActiveAlignment = Alignment.centerRight;
     }
     print('ssssss${_circleAnimation.value == Alignment.centerRight}');
@@ -82,26 +84,36 @@ class _CustomSwitchState extends State<CustomSwitch>
             child: Stack(overflow: Overflow.visible, children: [
               Container(
                 width: widget.width,
-                height: widget.height,
+                height: widget.height + widget.paddingTop,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: _circleAnimation.value == inActiveAlignment
-                          ? widget.inActiveColor
-                          : widget.activeColor),
+                    border: Border.all(
+                        color: _circleAnimation.value == inActiveAlignment
+                            ? widget.inActiveColor
+                            : widget.activeColor),
                     color: _circleAnimation.value == inActiveAlignment
                         ? widget.inActiveColor
                         : widget.activeColor),
               ),
               Positioned(
-                left: _circleAnimation.value == Alignment.centerLeft ? 1 : null,
-                right:_circleAnimation.value == Alignment.centerLeft ? null: 1,
+                top: widget.paddingTop / 2,
+                left: _circleAnimation.value == Alignment.centerLeft
+                    ? widget.paddingSide
+                    : null,
+                right: _circleAnimation.value == Alignment.centerLeft
+                    ? null
+                    : widget.paddingSide,
                 child: Container(
                   width: widget.height,
                   height: widget.height,
                   decoration: BoxDecoration(
-                    border: Border.all(color: _circleAnimation.value == inActiveAlignment
-                          ? widget.inActiveColor
-                          : widget.activeColor),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.16),
+                          offset: Offset(0, 2),
+                          blurRadius: 6,
+                        )
+                      ],
                       shape: BoxShape.circle,
                       color: _circleAnimation.value == inActiveAlignment
                           ? widget.inActiveCircleColor
@@ -113,5 +125,4 @@ class _CustomSwitchState extends State<CustomSwitch>
     );
   }
 }
-
 
